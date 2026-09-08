@@ -66,3 +66,12 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 updateStats();
+
+// Управление с клавиатуры (NumPad или обычные цифры)
+document.addEventListener('keydown', (event) => {
+  if (event.code === 'Numpad1' || event.key === '1') addWin(1);
+  if (event.code === 'Numpad2' || event.key === '2') addWin(-1);
+  if (event.code === 'Numpad4' || event.key === '4') addLoss(1);
+  if (event.code === 'Numpad5' || event.key === '5') addLoss(-1);
+  if (event.code === 'Numpad0' || event.key === '0') resetStats();
+});
