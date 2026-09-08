@@ -1,37 +1,87 @@
+/* Основной шрифт */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+
 body {
   margin: 0;
   padding: 0;
-  background: transparent;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: transparent; /* Прозрачный фон для OBS */
+  font-family: 'Inter', sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
+  overflow: hidden;
+}
+
+/* Анимированная переливающаяся граница */
+@keyframes borderGlow {
+  0%, 100% { border-color: #a855f7; box-shadow: 0 0 15px rgba(168, 85, 247, 0.7), inset 0 0 10px rgba(168, 85, 247, 0.5); }
+  33% { border-color: #22c55e; box-shadow: 0 0 15px rgba(34, 197, 94, 0.7), inset 0 0 10px rgba(34, 197, 94, 0.5); }
+  66% { border-color: #ef4444; box-shadow: 0 0 15px rgba(239, 68, 68, 0.7), inset 0 0 10px rgba(239, 68, 68, 0.5); }
+}
+
+/* Анимация переливающегося фона */
+@keyframes backgroundFlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Анимация мерцания */
+@keyframes sparkle {
+  0%, 100% { opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.8); }
+  50% { opacity: 0.8; text-shadow: 0 0 20px rgba(255,255,255,1), 0 0 30px rgba(168, 85, 247, 0.6); }
 }
 
 .widget {
   position: relative;
-  width: 260px;
-  background: rgba(18, 18, 20, 0.95);
+  width: 280px;
+  /* Градиентный фон, который будет двигаться */
+  background: linear-gradient(-45deg, #121214, #1a1a2e, #121214, #2a1a3e);
+  background-size: 400% 400%;
+  animation: backgroundFlow 10s ease infinite;
+  
   border-radius: 16px;
-  padding: 14px;
+  padding: 16px;
   color: #fff;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  
+  /* Анимированная светящаяся граница */
+  border: 2px solid #a855f7;
+  animation: borderGlow 6s linear infinite, backgroundFlow 10s ease infinite;
+  
   user-select: none;
   overflow: hidden;
+  box-sizing: border-box;
+}
+
+/* Добавляем эффект искр поверх всего */
+.widget::after {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background-image: 
+    radial-gradient(white, rgba(255,255,255,.2) 2px, transparent 3px),
+    radial-gradient(white, rgba(255,255,255,.15) 1px, transparent 2px),
+    radial-gradient(white, rgba(255,255,255,.1) 2px, transparent 3px);
+  background-size: 550px 550px, 350px 350px, 250px 250px;
+  background-position: 0 0, 40px 60px, 130px 270px;
+  animation: backgroundFlow 20s linear infinite;
+  opacity: 0.3;
+  pointer-events: none;
 }
 
 .header {
   display: flex;
   justify-content: space-between;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 
 .pair {
-  color: #a855f7;
+  color: #c084fc;
+  animation: sparkle 3s infinite;
 }
 
 .time {
@@ -40,93 +90,139 @@ body {
 
 .title {
   text-align: center;
-  font-size: 10px;
-  letter-spacing: 1px;
-  color: #6b7280;
-  margin-bottom: 12px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #a1a1aa;
+  margin-bottom: 14px;
   font-weight: 600;
+  text-transform: uppercase;
 }
 
 .grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 12px;
   text-align: center;
 }
 
 .counter-label {
-  font-size: 10px;
-  color: #9ca3af;
+  font-size: 11px;
+  color: #d1d5db;
   font-weight: 600;
+  margin-bottom: 4px;
+}
+
+@keyframes pulseGreen {
+  0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+}
+
+@keyframes pulseRed {
+  0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
 }
 
 .val-win {
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 800;
-  color: #22c55e;
+  color: #4ade80;
+  text-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
 }
 
 .val-loss {
-  font-size: 28px;
+  font-size: 36px;
   font-weight: 800;
-  color: #ef4444;
+  color: #f87171;
+  text-shadow: 0 0 10px rgba(248, 113, 113, 0.5);
 }
 
 .btns {
   display: flex;
-  gap: 4px;
+  gap: 6px;
   justify-content: center;
-  margin-top: 4px;
+  margin-top: 6px;
 }
 
 .btn {
   border: none;
-  border-radius: 6px;
-  width: 28px;
-  height: 22px;
+  border-radius: 8px;
+  width: 32px;
+  height: 26px;
   color: #fff;
   font-weight: bold;
+  font-size: 16px;
   cursor: pointer;
-  transition: transform 0.1s ease;
+  transition: all 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn:active {
-  transform: scale(0.92);
+  transform: scale(0.9);
 }
 
-.btn-win { background: #16a34a; }
-.btn-loss { background: #dc2626; }
-.btn-minus { opacity: 0.6; }
+.btn-win { 
+  background: #16a34a; 
+  box-shadow: 0 0 5px rgba(22, 163, 74, 0.5);
+}
+.btn-win:hover { animation: pulseGreen 1s infinite; }
+
+.btn-loss { 
+  background: #dc2626; 
+  box-shadow: 0 0 5px rgba(220, 38, 38, 0.5);
+}
+.btn-loss:hover { animation: pulseRed 1s infinite; }
+
+.btn-minus { opacity: 0.5; font-size: 20px; }
+.btn-minus:hover { opacity: 1; }
+
+@keyframes winrateFlow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
 
 .winrate-bar {
-  margin-top: 12px;
-  background: rgba(255, 255, 255, 0.06);
+  margin-top: 16px;
+  /* Переливающийся фон для винрейта */
+  background: linear-gradient(90deg, #1a1a2e, #2a1a3e, #1a1a2e);
+  background-size: 200% 200%;
+  animation: winrateFlow 5s linear infinite;
+  
   border-radius: 8px;
-  padding: 6px;
+  padding: 8px;
   text-align: center;
-  font-size: 10px;
+  font-size: 12px;
   color: #4ade80;
-  font-weight: 600;
+  font-weight: 700;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.2);
 }
 
 .footer {
   display: flex;
   justify-content: space-around;
-  margin-top: 10px;
-  font-size: 10px;
-  color: #9ca3af;
+  margin-top: 14px;
+  font-size: 11px;
+  color: #a1a1aa;
 }
 
 .footer-btn {
   cursor: pointer;
-  transition: color 0.2s ease;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .footer-btn:hover {
   color: #fff;
+  text-shadow: 0 0 5px rgba(255,255,255,0.5);
 }
 
-/* Модалка выбора пар */
+/* Стили для модального окна (оставляем без изменений, но добавляем фон) */
 .modal {
   display: none;
   position: absolute;
@@ -134,12 +230,12 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(18, 18, 20, 0.98);
+  background: rgba(10, 10, 12, 0.98);
   box-sizing: border-box;
-  padding: 12px;
+  padding: 15px;
   flex-direction: column;
-  justify-content: space-between;
   z-index: 10;
+  border-radius: 16px;
 }
 
 .modal.active {
@@ -150,64 +246,82 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  color: #a855f7;
+  color: #c084fc;
+  margin-bottom: 10px;
 }
 
 .close-btn {
   cursor: pointer;
-  font-size: 16px;
+  font-size: 20px;
   color: #9ca3af;
 }
 
 .pairs-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 6px;
-  margin: 8px 0;
-  max-height: 130px;
+  gap: 8px;
   overflow-y: auto;
+  margin-bottom: 10px;
+  padding-right: 4px;
+}
+
+/* Стилизация скроллбара */
+.pairs-grid::-webkit-scrollbar {
+  width: 4px;
+}
+.pairs-grid::-webkit-scrollbar-thumb {
+  background: #3f3f46;
+  border-radius: 2px;
 }
 
 .pair-option {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
-  border-radius: 6px;
-  padding: 6px 4px;
-  font-size: 9px;
+  border-radius: 8px;
+  padding: 8px 4px;
+  font-size: 10px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s;
 }
 
 .pair-option:hover {
   background: #a855f7;
+  border-color: #c084fc;
+  transform: translateY(-1px);
 }
 
 .custom-input-group {
   display: flex;
-  gap: 4px;
+  gap: 6px;
+  margin-top: auto;
 }
 
 .custom-input-group input {
   flex: 1;
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(0, 0, 0, 0.2);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 6px;
+  border-radius: 8px;
   color: #fff;
-  padding: 4px 6px;
-  font-size: 10px;
+  padding: 6px 10px;
+  font-size: 11px;
 }
 
 .custom-input-group button {
   background: #a855f7;
   border: none;
   color: #fff;
-  border-radius: 6px;
-  padding: 0 8px;
+  border-radius: 8px;
+  padding: 0 12px;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 11px;
   cursor: pointer;
+  transition: background 0.2s;
+}
+
+.custom-input-group button:hover {
+  background: #c084fc;
 }
